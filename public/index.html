@@ -13,6 +13,15 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/style.css" />
   <title>ReachMe</title>
 
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function () {
+      OneSignal.init({
+        appId: "c21a2fda-d1b7-49dd-8325-d1cf85bd7c1a",
+      });
+    });
+  </script>
 </head>
 
 <body>
@@ -27,6 +36,35 @@
           .catch((err) => console.log('Failure: ', err))
       })
     }
+  </script>
+  <script type="text/javascript">
+    OneSignal.push(function () {
+      /* These examples are all valid */
+      var isPushSupported = OneSignal.isPushNotificationsSupported();
+      if (isPushSupported) {
+        // Push notifications are supported
+        console.log("Supported")
+        OneSignal.isPushNotificationsEnabled(function (isEnabled) {
+          if (isEnabled) {
+            console.log("Push notifications are enabled!");
+            OneSignal.getUserId(function (userId) {
+              console.log("OneSignal User ID:", userId);
+              // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316    
+            });
+
+          }
+          else {
+            console.log("Push notifications are not enabled yet.");
+            OneSignal.push(function () {
+              OneSignal.showHttpPrompt();
+            });
+          }
+        });
+      } else {
+        // Push notifications are not supported
+        console.log("Not supported")
+      }
+    });
   </script>
 
 </body>
